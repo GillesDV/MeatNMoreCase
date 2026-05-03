@@ -1,6 +1,7 @@
 using ArticleService.Api.Configuration;
 using ArticleService.Application;
 using ArticleService.Domain.Entity;
+using ArticleService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,10 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApiSwagger();
 builder.Services.AddFirebaseAuthentication(builder.Configuration, builder.Environment);
-
-builder.Services.AddSingleton<IArticleService, ArticleService.Application.ArticleService>(); //TODO change me to Scoped, once a DB is added
+builder.Services.AddArticleInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+await app.Services.InitializeArticleDatabaseAsync();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

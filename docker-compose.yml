@@ -10,16 +10,6 @@ services:
     volumes:
       - sqlserver-data:/var/opt/mssql
 
-  rabbitmq:
-    image: rabbitmq:4-management
-    container_name: retaildemo-rabbitmq
-    ports:
-      - "5672:5672"     # RabbitMQ messaging
-      - "15672:15672"   # Management UI
-    environment:
-      RABBITMQ_DEFAULT_USER: "${RABBITMQ_USERNAME}"
-      RABBITMQ_DEFAULT_PASS: "${RABBITMQ_PASSWORD}"
-
   article-service:
     build:
       context: .
@@ -30,46 +20,10 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__ArticleDb: "Server=sqlserver,1433;Database=ArticleDb;User Id=sa;Password=${SQL_SA_PASSWORD};TrustServerCertificate=True;"
-      RabbitMQ__Host: "rabbitmq"
-      RabbitMQ__Username: "${RABBITMQ_USERNAME}"
-      RabbitMQ__Password: "${RABBITMQ_PASSWORD}"
+      Firebase__ProjectId: "${FIREBASE_PROJECT_ID}"
+      Firebase__ServiceAccountKeyPath: "${FIREBASE_SERVICE_ACCOUNT_KEY_PATH}"
     depends_on:
       - sqlserver
-      - rabbitmq
-
-  stock-service:
-    build:
-      context: .
-      dockerfile: StockService/StockService.Api/Dockerfile
-    container_name: retaildemo-stock-service
-    ports:
-      - "5002:8080"
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__StockDb: "Server=sqlserver,1433;Database=StockDb;User Id=sa;Password=Your_strong_password123!;TrustServerCertificate=True;"
-      RabbitMQ__Host: "rabbitmq"
-      RabbitMQ__Username: "${RABBITMQ_USERNAME}"
-      RabbitMQ__Password: "${RABBITMQ_PASSWORD}"
-    depends_on:
-      - sqlserver
-      - rabbitmq
-
-  price-service:
-    build:
-      context: .
-      dockerfile: PriceService/PriceService.Api/Dockerfile
-    container_name: retaildemo-price-service
-    ports:
-      - "5003:8080"
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__PriceDb: "Server=sqlserver,1433;Database=PriceDb;User Id=sa;Password=Your_strong_password123!;TrustServerCertificate=True;"
-      RabbitMQ__Host: "rabbitmq"
-      RabbitMQ__Username: "${RABBITMQ_USERNAME}"
-      RabbitMQ__Password: "${RABBITMQ_PASSWORD}"
-    depends_on:
-      - sqlserver
-      - rabbitmq
 
 volumes:
   sqlserver-data:
