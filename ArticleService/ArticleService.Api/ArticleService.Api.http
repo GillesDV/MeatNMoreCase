@@ -1,6 +1,8 @@
 @ArticleService.Api_HostAddress = http://localhost:5227
+@Firebase_Id_Token = paste-firebase-id-token-here
 
 GET {{ArticleService.Api_HostAddress}}/articles
 Accept: application/json
+Authorization: Bearer {{Firebase_Id_Token}}
 
 ###
