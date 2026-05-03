@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ArticleService.Infrastructure.Persistence;
 
-public sealed class SqlArticleService(ArticleDbContext dbContext) : IArticleService
+public sealed class SqlArticleService(ArticleDbContext dbContext) : IArticleRepository
 {
     public IReadOnlyCollection<Article> GetAll()
     {

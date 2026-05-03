@@ -20,7 +20,8 @@ public static class ArticleInfrastructureServiceCollectionExtensions
         services.AddDbContext<ArticleDbContext>(options =>
             options.UseSqlServer(connectionString));
 
-        services.AddScoped<IArticleService, SqlArticleService>();
+        services.AddScoped<IArticleRepository, SqlArticleService>();
+        services.AddScoped<IArticleService, Application.ArticleService>();
 
         return services;
     }

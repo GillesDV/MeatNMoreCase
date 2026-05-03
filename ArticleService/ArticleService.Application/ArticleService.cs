@@ -1,55 +1,32 @@
-using System.Collections.Concurrent;
 using ArticleService.Domain.Entity;
 
 namespace ArticleService.Application
 {
-    public class ArticleService : IArticleService
+    public class ArticleService(IArticleRepository articleRepository) : IArticleService
     {
-        private readonly ConcurrentDictionary<int, Article> articles = new();
-        private int nextArticleId;
-
         public IReadOnlyCollection<Article> GetAll()
         {
-            return articles.Values
-                .OrderBy(article => article.ArticleId)
-                .ToArray();
+            return articleRepository.GetAll();
         }
 
         public Article? GetById(int articleId)
         {
-            articles.TryGetValue(articleId, out var article);
-
-            return article;
+            return articleRepository.GetById(articleId);
         }
 
         public Article Create(Article article)
         {
-            if (article.ArticleId <= 0)
-            {
-                article.ArticleId = Interlocked.Increment(ref nextArticleId);
-            }
-
-            articles[article.ArticleId] = article;
-
-            return article;
+            return articleRepository.Create(article);
         }
 
         public bool Update(int articleId, Article article)
         {
-            if (!articles.ContainsKey(articleId))
-            {
-                return false;
-            }
-
-            article.ArticleId = articleId;
-            articles[articleId] = article;
-
-            return true;
+            return articleRepository.Update(articleId, article);
         }
 
         public bool Delete(int articleId)
         {
-            return articles.TryRemove(articleId, out _);
+            return articleRepository.Delete(articleId);
         }
     }
 }
