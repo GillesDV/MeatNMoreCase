@@ -15,7 +15,7 @@ Change the following files from dummy values to super secret values.
 
 
 ## What to improve, if given more time or if it became prod code
-
+- Maybe extract the Minimal Api endpoints from Program.cs into another file / structure as well? Especially if more controllers might be added in the future
 
 ## Task
 
