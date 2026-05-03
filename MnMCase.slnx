@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/ArticleService/">
+    <Project Path="ArticleService/ArticleService.Api/ArticleService.Api.csproj" />
+    <Project Path="ArticleService/ArticleService.Application/ArticleService.Application.csproj" />
+    <Project Path="ArticleService/ArticleService.Domain/ArticleService.Domain.csproj" />
+    <Project Path="ArticleService/ArticleService.Infrastructure/ArticleService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/BuildingBlocks/">
+    <Project Path="BuildingBlocks/BuildingBlocks.Contracts/BuildingBlocks.Contracts.csproj" Id="bfe8b74c-f8a5-4c07-b323-8de190989a90" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".env" />
+    <File Path=".env.example" />
+    <File Path="docker-compose.yml" />
+  </Folder>
+</Solution>

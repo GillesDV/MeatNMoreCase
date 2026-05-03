@@ -1,0 +1,6 @@
+@ArticleService.Api_HostAddress = http://localhost:5227
+
+GET {{ArticleService.Api_HostAddress}}/articles
+Accept: application/json
+
+###
