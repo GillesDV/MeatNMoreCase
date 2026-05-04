@@ -1,14 +1,10 @@
+using StockService.Application.DTO;
 using StockService.Domain.Entity;
 
 namespace StockService.Application
 {
     public class StockService(IStockRepository stockRepository) : IStockService
     {
-        public IReadOnlyCollection<StockItem> GetAll()
-        {
-            return stockRepository.GetAll();
-        }
-
         public StockItem? GetByArticleId(int articleId)
         {
             return stockRepository.GetByArticleId(articleId);
@@ -19,14 +15,14 @@ namespace StockService.Application
             return stockRepository.Create(stockInfo);
         }
 
-        public bool Update(int articleId, StockItem stockInfo)
+        public bool Update(int articleId, UpdateStockItemDto stockInfo)
         {
-            return stockRepository.Update(articleId, stockInfo);
-        }
-
-        public bool Delete(int articleId)
-        {
-            return stockRepository.Delete(articleId);
+            return stockRepository.Update(articleId, new StockItem
+            {
+                ArticleId = articleId,
+                Quantity = stockInfo.Quantity,
+                Location = stockInfo.Location
+            });
         }
     }
 }

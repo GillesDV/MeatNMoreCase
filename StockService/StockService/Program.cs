@@ -1,6 +1,6 @@
 using StockService.Api.Configuration;
 using StockService.Application;
-using StockService.Domain.Entity;
+using StockService.Application.DTO;
 using StockService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,11 +30,6 @@ var stockInfos = app.MapGroup("/stock-info")
     .WithTags("stock-info")
     .RequireAuthorization();
 
-stockInfos.MapGet("/", (IStockService stockService) =>
-{
-    return Results.Ok(stockService.GetAll());
-});
-
 stockInfos.MapGet("/{articleId:int}", (int articleId, IStockService stockService) =>
 {
     var stockInfo = stockService.GetByArticleId(articleId);
@@ -44,23 +39,9 @@ stockInfos.MapGet("/{articleId:int}", (int articleId, IStockService stockService
         : Results.Ok(stockInfo);
 });
 
-stockInfos.MapPost("/", (StockItem stockInfo, IStockService stockService) =>
-{
-    var createdStockInfo = stockService.Create(stockInfo);
-
-    return Results.Created($"/stock-info/{createdStockInfo.ArticleId}", createdStockInfo);
-});
-
-stockInfos.MapPut("/{articleId:int}", (int articleId, StockItem stockInfo, IStockService stockService) =>
+stockInfos.MapPut("/{articleId:int}", (int articleId, UpdateStockItemDto stockInfo, IStockService stockService) =>
 {
     return stockService.Update(articleId, stockInfo)
-        ? Results.NoContent()
-        : Results.NotFound();
-});
-
-stockInfos.MapDelete("/{articleId:int}", (int articleId, IStockService stockService) =>
-{
-    return stockService.Delete(articleId)
         ? Results.NoContent()
         : Results.NotFound();
 });

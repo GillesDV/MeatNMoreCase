@@ -6,14 +6,6 @@ namespace StockService.Infrastructure.Persistence;
 
 public sealed class SqlStockService(StockDbContext dbContext) : IStockRepository
 {
-    public IReadOnlyCollection<StockItem> GetAll()
-    {
-        return dbContext.StockInfos
-            .AsNoTracking()
-            .OrderBy(stockInfo => stockInfo.ArticleId)
-            .ToArray();
-    }
-
     public StockItem? GetByArticleId(int articleId)
     {
         return dbContext.StockInfos
@@ -41,21 +33,6 @@ public sealed class SqlStockService(StockDbContext dbContext) : IStockRepository
         existingStockInfo.Quantity = stockInfo.Quantity;
         existingStockInfo.Location = stockInfo.Location;
 
-        dbContext.SaveChanges();
-
-        return true;
-    }
-
-    public bool Delete(int articleId)
-    {
-        var existingStockInfo = dbContext.StockInfos.Find(articleId);
-
-        if (existingStockInfo is null)
-        {
-            return false;
-        }
-
-        dbContext.StockInfos.Remove(existingStockInfo);
         dbContext.SaveChanges();
 
         return true;

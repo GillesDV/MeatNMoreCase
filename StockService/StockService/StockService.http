@@ -1,7 +1,7 @@
 @StockService.Api_HostAddress = http://localhost:5097
 @Firebase_Id_Token = paste-firebase-id-token-here
 
-GET {{StockService.Api_HostAddress}}/stock-info
+GET {{StockService.Api_HostAddress}}/stock-info/1
 Accept: application/json
 Authorization: Bearer {{Firebase_Id_Token}}
 
