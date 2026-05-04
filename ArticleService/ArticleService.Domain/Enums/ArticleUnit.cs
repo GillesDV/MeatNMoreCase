@@ -4,10 +4,10 @@ using System.Text;
 
 namespace ArticleService.Domain.Enums
 {
-    public enum Eenheid
+    public enum ArticleUnit
     {
         Unknown,
-        kg,
-        st
+        kilogram,
+        piece
     }
 }

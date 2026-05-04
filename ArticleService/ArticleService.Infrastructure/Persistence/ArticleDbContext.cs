@@ -18,10 +18,10 @@ public sealed class ArticleDbContext(DbContextOptions<ArticleDbContext> options)
             entity.Property(article => article.ArticleId)
                 .ValueGeneratedOnAdd();
 
-            entity.Property(article => article.Omschrijving)
+            entity.Property(article => article.Description)
                 .HasMaxLength(500);
 
-            entity.Property(article => article.Eenheid)
+            entity.Property(article => article.Unit)
                 .HasConversion<string>()
                 .HasMaxLength(32)
                 .IsRequired();

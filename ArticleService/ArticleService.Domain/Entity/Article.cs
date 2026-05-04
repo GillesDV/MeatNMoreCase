@@ -6,8 +6,8 @@ namespace ArticleService.Domain.Entity
     {
         public int ArticleId { get; set; }
 
-        public string Omschrijving { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
 
-        public Eenheid Eenheid { get; set; } = Eenheid.Unknown;
+        public ArticleUnit Unit { get; set; } = ArticleUnit.Unknown;
     }
 }

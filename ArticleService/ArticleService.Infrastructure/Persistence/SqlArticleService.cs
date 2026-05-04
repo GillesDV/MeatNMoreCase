@@ -41,8 +41,8 @@ public sealed class SqlArticleService(ArticleDbContext dbContext) : IArticleRepo
             return false;
         }
 
-        existingArticle.Omschrijving = article.Omschrijving;
-        existingArticle.Eenheid = article.Eenheid;
+        existingArticle.Description = article.Description;
+        existingArticle.Unit = article.Unit;
 
         dbContext.SaveChanges();
 
