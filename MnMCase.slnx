@@ -13,4 +13,10 @@
     <File Path=".env.example" />
     <File Path="docker-compose.yml" />
   </Folder>
+  <Folder Name="/StockService/">
+    <Project Path="StockService/StockService.Application/StockService.Application.csproj" Id="856592aa-b23e-48fd-acc1-868d1266037a" />
+    <Project Path="StockService/StockService.Domain/StockService.Domain.csproj" Id="7da9f1a4-7a1f-49f0-813b-cfafe5ec5796" />
+    <Project Path="StockService/StockService.Infrastructure/StockService.Infrastructure.csproj" Id="74696c2b-1d50-40da-aa3f-4e3948e3bb5d" />
+    <Project Path="StockService/StockService/StockService.Api.csproj" Id="4ec13ec2-1b3b-42ab-b38a-b088dee194f6" />
+  </Folder>
 </Solution>
