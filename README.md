@@ -19,6 +19,8 @@ Change the following files from dummy values to super secret values.
 ## What to improve, if given more time or if it became prod code
 - Maybe extract the Minimal Api endpoints from Program.cs into another file / structure as well? Especially if more controllers might be added in the future
 - Make a template project, to make creating any new .NET APIs even easier. A bit overkill or even not desirable for a Demo
+- Some stuff could probably be put into Nuget packages to reduce DRY in the different APIs 
 - TODO make DTOs for the frontend. Muh separation of concerns
+
 
 ## Task

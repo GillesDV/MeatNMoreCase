@@ -40,5 +40,20 @@ services:
     depends_on:
       - sqlserver
 
+  price-service:
+    build:
+      context: .
+      dockerfile: PriceService/PriceService.Api/Dockerfile
+    container_name: retaildemo-price-service
+    ports:
+      - "5003:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__PriceDb: "Server=sqlserver,1433;Database=PriceDb;User Id=sa;Password=${SQL_SA_PASSWORD};TrustServerCertificate=True;"
+      Firebase__ProjectId: "${FIREBASE_PROJECT_ID}"
+      Firebase__ServiceAccountKeyPath: "${FIREBASE_SERVICE_ACCOUNT_KEY_PATH}"
+    depends_on:
+      - sqlserver
+
 volumes:
   sqlserver-data:
