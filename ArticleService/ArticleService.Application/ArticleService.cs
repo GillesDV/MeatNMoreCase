@@ -1,3 +1,4 @@
+using ArticleService.Application.Interfaces;
 using ArticleService.Domain.Entity;
 
 namespace ArticleService.Application

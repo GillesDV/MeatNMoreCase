@@ -1,7 +1,7 @@
 using PriceService.Application.DTO;
 using PriceService.Domain.Entity;
 
-namespace PriceService.Application
+namespace PriceService.Application.Interfaces
 {
     public interface IPriceService
     {

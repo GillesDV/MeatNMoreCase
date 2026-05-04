@@ -1,5 +1,5 @@
 using ArticleService.Api.Configuration;
-using ArticleService.Application;
+using ArticleService.Application.Interfaces;
 using ArticleService.Domain.Entity;
 using ArticleService.Infrastructure;
 using NServiceBus;

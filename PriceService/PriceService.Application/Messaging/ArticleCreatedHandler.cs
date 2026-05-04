@@ -1,5 +1,6 @@
 using BuildingBlocks.Contracts;
 using NServiceBus;
+using PriceService.Application.Interfaces;
 using PriceService.Domain.Entity;
 
 namespace PriceService.Application.Messaging;

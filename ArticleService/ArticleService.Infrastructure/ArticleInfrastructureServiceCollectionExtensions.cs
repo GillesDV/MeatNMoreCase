@@ -1,4 +1,4 @@
-using ArticleService.Application;
+using ArticleService.Application.Interfaces;
 using ArticleService.Infrastructure.Messaging;
 using ArticleService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

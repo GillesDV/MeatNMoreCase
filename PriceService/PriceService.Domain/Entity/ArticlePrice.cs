@@ -10,13 +10,12 @@ namespace PriceService.Domain.Entity
 
         public decimal BasicPriceInEuros { get; set; }
 
-        //TODO add unit as well, imported from ArticleService 
         //TODO add unit tests for this later
-        public decimal CalculateTotalPrice(int quantityInKg, int stockInKg)
+        public decimal CalculateTotalPrice(int quantityInKg, int quantityInStock, string unit)
         {
             var baseTotal = BasicPriceInEuros * quantityInKg;
 
-            var totalDiscount = CalculateDiscount(quantityInKg, stockInKg);
+            var totalDiscount = CalculateDiscount(quantityInKg, quantityInStock, unit);
 
             var finalPrice = baseTotal * (1 - totalDiscount);
 
@@ -24,22 +23,22 @@ namespace PriceService.Domain.Entity
         }
 
         // TODO check on enum Eenheid as well + add unit tests for this
-        private decimal CalculateDiscount(int quantityInKg, int stockInKg)
+        private decimal CalculateDiscount(int quantityInKg, int quantityInStock, string unit)
         {
             decimal totalDiscount = 0m;
 
             // volume discount (aka 'staffel korting' )
-            if (quantityInKg >= 20)
+            if (quantityInKg >= 20 && unit.Equals("kilogram", StringComparison.InvariantCultureIgnoreCase) )
             {
                 totalDiscount += 0.20m;
             }
-            else if (quantityInKg >= 10)
+            else if (quantityInKg >= 10 && unit.Equals("kilogram", StringComparison.InvariantCultureIgnoreCase))
             {
                 totalDiscount += 0.10m;
             }
 
             // Additional Stock discount
-            if (stockInKg >= 100)
+            if (quantityInStock >= 100 && unit.Equals("kilogram", StringComparison.InvariantCultureIgnoreCase))
             {
                 totalDiscount += 0.10m;
             }

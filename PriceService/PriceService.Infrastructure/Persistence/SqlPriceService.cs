@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using PriceService.Application;
+using PriceService.Application.Interfaces;
 using PriceService.Domain.Entity;
 
 namespace PriceService.Infrastructure.Persistence;

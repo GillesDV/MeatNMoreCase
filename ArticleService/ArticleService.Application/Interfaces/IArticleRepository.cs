@@ -1,6 +1,6 @@
 using ArticleService.Domain.Entity;
 
-namespace ArticleService.Application
+namespace ArticleService.Application.Interfaces
 {
     public interface IArticleRepository
     {

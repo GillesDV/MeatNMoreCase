@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using StockService.Application;
+using StockService.Application.Interfaces;
 using StockService.Infrastructure.Persistence;
 
 namespace StockService.Infrastructure;

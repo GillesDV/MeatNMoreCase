@@ -1,7 +1,7 @@
 using StockService.Application.DTO;
 using StockService.Domain.Entity;
 
-namespace StockService.Application
+namespace StockService.Application.Interfaces
 {
     public interface IStockService
     {

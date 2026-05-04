@@ -1,8 +1,8 @@
 using PriceService.Api.Configuration;
-using PriceService.Application;
 using PriceService.Application.DTO;
 using PriceService.Infrastructure;
 using NServiceBus;
+using PriceService.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

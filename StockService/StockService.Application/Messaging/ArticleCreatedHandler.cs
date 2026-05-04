@@ -1,5 +1,6 @@
 using BuildingBlocks.Contracts;
 using NServiceBus;
+using StockService.Application.Interfaces;
 using StockService.Domain.Entity;
 using StockService.Domain.Enums;
 

@@ -1,6 +1,6 @@
 using PriceService.Domain.Entity;
 
-namespace PriceService.Application
+namespace PriceService.Application.Interfaces
 {
     public interface IPriceRepository
     {

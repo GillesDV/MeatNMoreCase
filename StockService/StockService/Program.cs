@@ -1,8 +1,8 @@
 using StockService.Api.Configuration;
-using StockService.Application;
 using StockService.Application.DTO;
 using StockService.Infrastructure;
 using NServiceBus;
+using StockService.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

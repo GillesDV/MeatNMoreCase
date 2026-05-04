@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using StockService.Application;
+using StockService.Application.Interfaces;
 using StockService.Domain.Entity;
 
 namespace StockService.Infrastructure.Persistence;

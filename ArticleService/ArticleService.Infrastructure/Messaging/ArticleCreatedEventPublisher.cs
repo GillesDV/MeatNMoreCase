@@ -1,4 +1,4 @@
-using ArticleService.Application;
+using ArticleService.Application.Interfaces;
 using ArticleService.Domain.Entity;
 using BuildingBlocks.Contracts;
 using NServiceBus;

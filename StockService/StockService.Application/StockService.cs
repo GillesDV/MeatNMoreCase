@@ -1,4 +1,5 @@
 using StockService.Application.DTO;
+using StockService.Application.Interfaces;
 using StockService.Domain.Entity;
 
 namespace StockService.Application

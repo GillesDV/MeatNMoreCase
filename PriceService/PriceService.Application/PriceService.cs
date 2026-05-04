@@ -1,9 +1,15 @@
 using PriceService.Application.DTO;
+using PriceService.Application.Interfaces;
+using PriceService.Application.Proxies.ArticleService;
+using PriceService.Application.Proxies.StockService;
 using PriceService.Domain.Entity;
 
 namespace PriceService.Application
 {
-    public class PriceService(IPriceRepository priceRepository) : IPriceService
+    public class PriceService(
+        IPriceRepository priceRepository,
+        IArticleServiceClient articleServiceClient,
+        IStockServiceClient stockServiceClient) : IPriceService
     {
         public Task<ArticlePrice> Create(ArticlePrice articlePrice)
         {
@@ -14,19 +20,25 @@ namespace PriceService.Application
         {
             var articlePrice = await priceRepository.GetByArticleId(articleId);
 
-            //TODO  get these values from a GET call from StockService and ArtikelsErvice
-            var quantityInKg = 15;
-            var stockInKg = 15;
-
             if (articlePrice is null)
             {
                 return null;
             }
 
+            var article = await articleServiceClient.GetById(articleId);
+            var stock = await stockServiceClient.GetById(articleId);
+
+            if (article is null || stock is null)
+            {
+                return null;
+            }
+
+            var quantityInKg = stock.Quantity; //TODO is this correct? Unsure, but don't see another option. If so, simplify the 2 params ofc
+
             return new ArticlePriceDto
             {
                 ArticleId = articlePrice.ArticleId,
-                TotalPriceInEuros = articlePrice.CalculateTotalPrice(quantityInKg, stockInKg)
+                TotalPriceInEuros = articlePrice.CalculateTotalPrice(quantityInKg, stock.Quantity, article.Unit)
             };
         }
 
