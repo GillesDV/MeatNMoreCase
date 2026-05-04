@@ -32,3 +32,5 @@ yarn-error.log*
 *.vs
 **/[Bb]in/*
 **/[Oo]bj/*
+
+*.subscription
