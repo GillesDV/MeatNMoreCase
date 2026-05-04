@@ -6,5 +6,5 @@ public sealed class StockItemDto
 
     public int Quantity { get; init; }
 
-    public int Location { get; init; }
+    public string Location { get; init; }
 }
