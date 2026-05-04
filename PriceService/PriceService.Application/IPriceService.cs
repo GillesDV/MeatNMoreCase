@@ -9,6 +9,6 @@ namespace PriceService.Application
 
         ArticlePrice Create(ArticlePrice articlePrice);
 
-        bool Update(int articleId, ArticlePrice articlePrice);
+        bool Update(int articleId, UpdateArticlePriceDto articlePrice);
     }
 }

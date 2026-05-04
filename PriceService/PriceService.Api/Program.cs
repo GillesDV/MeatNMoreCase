@@ -1,6 +1,6 @@
 using PriceService.Api.Configuration;
 using PriceService.Application;
-using PriceService.Domain.Entity;
+using PriceService.Application.DTO;
 using PriceService.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,7 +41,7 @@ articlePrices.MapGet("/{articleId:int}", (
         : Results.Ok(articlePrice);
 });
 
-articlePrices.MapPut("/{articleId:int}", (int articleId, ArticlePrice articlePrice, IPriceService priceService) =>
+articlePrices.MapPut("/{articleId:int}", (int articleId, UpdateArticlePriceDto articlePrice, IPriceService priceService) =>
 {
     return priceService.Update(articleId, articlePrice)
         ? Results.NoContent()

@@ -30,9 +30,13 @@ namespace PriceService.Application
             };
         }
 
-        public bool Update(int articleId, ArticlePrice articlePrice)
+        public bool Update(int articleId, UpdateArticlePriceDto articlePrice)
         {
-            return priceRepository.Update(articleId, articlePrice);
+            return priceRepository.Update(articleId, new ArticlePrice
+            {
+                ArticleId = articleId,
+                BasicPriceInEuros = articlePrice.BasicPriceInEuros
+            });
         }
     }
 }
