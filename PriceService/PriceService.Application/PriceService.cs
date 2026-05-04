@@ -1,3 +1,4 @@
+using PriceService.Application.DTO;
 using PriceService.Domain.Entity;
 
 namespace PriceService.Application
@@ -9,7 +10,7 @@ namespace PriceService.Application
             return priceRepository.Create(articlePrice);
         }
 
-        public ArticlePrice? GetByArticleId(int articleId)
+        public ArticlePriceDto? GetByArticleId(int articleId)
         {
             var articlePrice = priceRepository.GetByArticleId(articleId);
 
@@ -22,11 +23,10 @@ namespace PriceService.Application
                 return null;
             }
 
-            //TODO use a separate DTO
-            return new ArticlePrice
+            return new ArticlePriceDto
             {
                 ArticleId = articlePrice.ArticleId,
-                BasicPriceInEuros = articlePrice.CalculateTotalPrice(quantityInKg, stockInKg)
+                TotalPriceInEuros = articlePrice.CalculateTotalPrice(quantityInKg, stockInKg)
             };
         }
 

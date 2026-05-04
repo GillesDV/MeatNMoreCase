@@ -1,10 +1,11 @@
+using PriceService.Application.DTO;
 using PriceService.Domain.Entity;
 
 namespace PriceService.Application
 {
     public interface IPriceService
     {
-        ArticlePrice? GetByArticleId(int articleId);
+        ArticlePriceDto? GetByArticleId(int articleId);
 
         ArticlePrice Create(ArticlePrice articlePrice);
 
