@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using NServiceBus;
 
 namespace BuildingBlocks.Contracts
 {
     public record ArticleCreated(
-        Guid ArticleId,
-        string Description,
-        string Unit
-    );
+        int ArticleId
+    ) : IEvent;
 }

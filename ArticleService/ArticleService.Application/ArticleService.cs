@@ -2,7 +2,9 @@ using ArticleService.Domain.Entity;
 
 namespace ArticleService.Application
 {
-    public class ArticleService(IArticleRepository articleRepository) : IArticleService
+    public class ArticleService(
+        IArticleRepository articleRepository,
+        IArticleCreatedEventPublisher articleCreatedEventPublisher) : IArticleService
     {
         public IReadOnlyCollection<Article> GetAll()
         {
@@ -14,9 +16,13 @@ namespace ArticleService.Application
             return articleRepository.GetById(articleId);
         }
 
-        public Article Create(Article article)
+        public async Task<Article> Create(Article article)
         {
-            return articleRepository.Create(article);
+            Article createdArticle = articleRepository.Create(article);
+
+            await articleCreatedEventPublisher.PublishAsync(createdArticle);
+
+            return createdArticle;
         }
 
         public bool Update(int articleId, Article article)

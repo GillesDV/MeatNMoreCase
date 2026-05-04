@@ -8,7 +8,7 @@ namespace ArticleService.Application
 
         Article? GetById(int articleId);
 
-        Article Create(Article article);
+        Task<Article> Create(Article article);
 
         bool Update(int articleId, Article article);
 

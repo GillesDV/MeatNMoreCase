@@ -1,4 +1,5 @@
 using ArticleService.Application;
+using ArticleService.Infrastructure.Messaging;
 using ArticleService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ public static class ArticleInfrastructureServiceCollectionExtensions
             options.UseSqlServer(connectionString));
 
         services.AddScoped<IArticleRepository, SqlArticleService>();
+        services.AddScoped<IArticleCreatedEventPublisher, ArticleCreatedEventPublisher>();
         services.AddScoped<IArticleService, Application.ArticleService>();
 
         return services;

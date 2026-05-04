@@ -22,5 +22,7 @@ Change the following files from dummy values to super secret values.
 - Some stuff could probably be put into Nuget packages to reduce DRY in the different APIs 
 - TODO make DTOs for the frontend. Muh separation of concerns
 - Try to use vertical slice architecture 
+- Instead of using in-memory nservicebus, use Azure Service bus / RabbitMQ; for decent persistence & scalability.
+- TODO use f-ing async for DB operations, idk how I forgot that
 
 ## Task

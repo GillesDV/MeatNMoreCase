@@ -2,8 +2,19 @@ using PriceService.Api.Configuration;
 using PriceService.Application;
 using PriceService.Application.DTO;
 using PriceService.Infrastructure;
+using NServiceBus;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseNServiceBus(_ =>
+{
+    var endpointConfiguration = new EndpointConfiguration("PriceService");
+    endpointConfiguration.UseSerialization<SystemJsonSerializer>();
+    endpointConfiguration.UseTransport(new LearningTransport());
+    endpointConfiguration.EnableInstallers();
+
+    return endpointConfiguration;
+});
 
 // Add services to the container.
 builder.Services.AddApiSwagger();
