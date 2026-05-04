@@ -1,7 +1,7 @@
 @PriceService.Api_HostAddress = http://localhost:5204
 @Firebase_Id_Token = paste-firebase-id-token-here
 
-GET {{PriceService.Api_HostAddress}}/article-prices
+GET {{PriceService.Api_HostAddress}}/article-prices/1?quantityInKg=10&stockInKg=100
 Accept: application/json
 Authorization: Bearer {{Firebase_Id_Token}}
 

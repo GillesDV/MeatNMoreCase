@@ -10,16 +10,13 @@ namespace PriceService.Domain.Entity
 
         public decimal BasicPriceInEuros { get; set; }
 
+        //TODO add unit as well, imported from ArticleService 
+        //TODO add unit tests for this later
         public decimal CalculateTotalPrice(int quantityInKg, int stockInKg)
         {
             var baseTotal = BasicPriceInEuros * quantityInKg;
 
-            var totalDiscount = GetTierDiscount(quantityInKg);
-
-            if (stockInKg >= 100)
-            {
-                totalDiscount += 0.10m;
-            }
+            var totalDiscount = CalculateDiscount(quantityInKg, stockInKg);
 
             var finalPrice = baseTotal * (1 - totalDiscount);
 
@@ -27,20 +24,27 @@ namespace PriceService.Domain.Entity
         }
 
         // TODO check on enum Eenheid as well + add unit tests for this
-        private decimal GetTierDiscount(int quantityInKg)
+        private decimal CalculateDiscount(int quantityInKg, int stockInKg)
         {
-            // You can do this in other ways (switch case, Linq / ordering...), but this is straight forward & simply-to-read by design for now.
+            decimal totalDiscount = 0m;
+
+            // volume discount (aka 'staffel korting' )
             if (quantityInKg >= 20)
             {
-                return 0.20m;
+                totalDiscount += 0.20m;
             }
-
-            if (quantityInKg >= 10)
+            else if (quantityInKg >= 10)
             {
-                return 0.10m;
+                totalDiscount += 0.10m;
             }
 
-            return 0m;
+            // Additional Stock discount
+            if (stockInKg >= 100)
+            {
+                totalDiscount += 0.10m;
+            }
+
+            return totalDiscount;
         }
 
     }

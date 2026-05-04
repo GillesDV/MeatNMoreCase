@@ -30,12 +30,9 @@ var articlePrices = app.MapGroup("/article-prices")
     .WithTags("article-prices")
     .RequireAuthorization();
 
-articlePrices.MapGet("/", (IPriceService priceService) =>
-{
-    return Results.Ok(priceService.GetAll());
-});
-
-articlePrices.MapGet("/{articleId:int}", (int articleId, IPriceService priceService) =>
+articlePrices.MapGet("/{articleId:int}", (
+    int articleId,
+    IPriceService priceService) =>
 {
     var articlePrice = priceService.GetByArticleId(articleId);
 
@@ -44,23 +41,9 @@ articlePrices.MapGet("/{articleId:int}", (int articleId, IPriceService priceServ
         : Results.Ok(articlePrice);
 });
 
-articlePrices.MapPost("/", (ArticlePrice articlePrice, IPriceService priceService) =>
-{
-    var createdArticlePrice = priceService.Create(articlePrice);
-
-    return Results.Created($"/article-prices/{createdArticlePrice.ArticleId}", createdArticlePrice);
-});
-
 articlePrices.MapPut("/{articleId:int}", (int articleId, ArticlePrice articlePrice, IPriceService priceService) =>
 {
     return priceService.Update(articleId, articlePrice)
-        ? Results.NoContent()
-        : Results.NotFound();
-});
-
-articlePrices.MapDelete("/{articleId:int}", (int articleId, IPriceService priceService) =>
-{
-    return priceService.Delete(articleId)
         ? Results.NoContent()
         : Results.NotFound();
 });
