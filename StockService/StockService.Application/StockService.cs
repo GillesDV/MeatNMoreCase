@@ -4,22 +4,22 @@ namespace StockService.Application
 {
     public class StockService(IStockRepository stockRepository) : IStockService
     {
-        public IReadOnlyCollection<StockInfo> GetAll()
+        public IReadOnlyCollection<StockItem> GetAll()
         {
             return stockRepository.GetAll();
         }
 
-        public StockInfo? GetByArticleId(int articleId)
+        public StockItem? GetByArticleId(int articleId)
         {
             return stockRepository.GetByArticleId(articleId);
         }
 
-        public StockInfo Create(StockInfo stockInfo)
+        public StockItem Create(StockItem stockInfo)
         {
             return stockRepository.Create(stockInfo);
         }
 
-        public bool Update(int articleId, StockInfo stockInfo)
+        public bool Update(int articleId, StockItem stockInfo)
         {
             return stockRepository.Update(articleId, stockInfo);
         }

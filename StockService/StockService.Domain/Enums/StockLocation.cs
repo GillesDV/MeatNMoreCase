@@ -5,10 +5,10 @@ using System.Text;
 
 namespace StockService.Domain.Enums
 {
-    public enum Locatie
+    public enum StockLocation
     {
         Unknown,
-        CentraalMagazijn,
-        ExtraMagazijn,
+        MainWharehouse,
+        ExtraWharehouse,
     }
 }

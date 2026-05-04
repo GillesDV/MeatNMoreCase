@@ -44,14 +44,14 @@ stockInfos.MapGet("/{articleId:int}", (int articleId, IStockService stockService
         : Results.Ok(stockInfo);
 });
 
-stockInfos.MapPost("/", (StockInfo stockInfo, IStockService stockService) =>
+stockInfos.MapPost("/", (StockItem stockInfo, IStockService stockService) =>
 {
     var createdStockInfo = stockService.Create(stockInfo);
 
     return Results.Created($"/stock-info/{createdStockInfo.ArticleId}", createdStockInfo);
 });
 
-stockInfos.MapPut("/{articleId:int}", (int articleId, StockInfo stockInfo, IStockService stockService) =>
+stockInfos.MapPut("/{articleId:int}", (int articleId, StockItem stockInfo, IStockService stockService) =>
 {
     return stockService.Update(articleId, stockInfo)
         ? Results.NoContent()

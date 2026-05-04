@@ -5,11 +5,11 @@ namespace StockService.Infrastructure.Persistence;
 
 public sealed class StockDbContext(DbContextOptions<StockDbContext> options) : DbContext(options)
 {
-    public DbSet<StockInfo> StockInfos => Set<StockInfo>();
+    public DbSet<StockItem> StockInfos => Set<StockItem>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<StockInfo>(entity =>
+        modelBuilder.Entity<StockItem>(entity =>
         {
             entity.ToTable("StockInfos");
 
@@ -18,11 +18,12 @@ public sealed class StockDbContext(DbContextOptions<StockDbContext> options) : D
             entity.Property(stockInfo => stockInfo.ArticleId)
                 .ValueGeneratedNever();
 
-            entity.Property(stockInfo => stockInfo.Voorraad)
+            entity.Property(stockInfo => stockInfo.Quantity)
                 .IsRequired();
 
-            entity.Property(stockInfo => stockInfo.Locatie)
-                .HasConversion<string>()
+            entity.Property(stockInfo => stockInfo.Location)
+            // Should this be a number? Depends on business rules (aka, how likely are we to get a new Location and what kind of names would it get? Should be clear & future-proof regardless)
+                .HasConversion<string>() 
                 .HasMaxLength(32)
                 .IsRequired();
         });

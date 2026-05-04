@@ -4,13 +4,13 @@ namespace StockService.Application
 {
     public interface IStockRepository
     {
-        IReadOnlyCollection<StockInfo> GetAll();
+        IReadOnlyCollection<StockItem> GetAll();
 
-        StockInfo? GetByArticleId(int articleId);
+        StockItem? GetByArticleId(int articleId);
 
-        StockInfo Create(StockInfo stockInfo);
+        StockItem Create(StockItem stockInfo);
 
-        bool Update(int articleId, StockInfo stockInfo);
+        bool Update(int articleId, StockItem stockInfo);
 
         bool Delete(int articleId);
     }

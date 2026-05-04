@@ -6,7 +6,7 @@ namespace StockService.Infrastructure.Persistence;
 
 public sealed class SqlStockService(StockDbContext dbContext) : IStockRepository
 {
-    public IReadOnlyCollection<StockInfo> GetAll()
+    public IReadOnlyCollection<StockItem> GetAll()
     {
         return dbContext.StockInfos
             .AsNoTracking()
@@ -14,14 +14,14 @@ public sealed class SqlStockService(StockDbContext dbContext) : IStockRepository
             .ToArray();
     }
 
-    public StockInfo? GetByArticleId(int articleId)
+    public StockItem? GetByArticleId(int articleId)
     {
         return dbContext.StockInfos
             .AsNoTracking()
             .SingleOrDefault(stockInfo => stockInfo.ArticleId == articleId);
     }
 
-    public StockInfo Create(StockInfo stockInfo)
+    public StockItem Create(StockItem stockInfo)
     {
         dbContext.StockInfos.Add(stockInfo);
         dbContext.SaveChanges();
@@ -29,7 +29,7 @@ public sealed class SqlStockService(StockDbContext dbContext) : IStockRepository
         return stockInfo;
     }
 
-    public bool Update(int articleId, StockInfo stockInfo)
+    public bool Update(int articleId, StockItem stockInfo)
     {
         var existingStockInfo = dbContext.StockInfos.Find(articleId);
 
@@ -38,8 +38,8 @@ public sealed class SqlStockService(StockDbContext dbContext) : IStockRepository
             return false;
         }
 
-        existingStockInfo.Voorraad = stockInfo.Voorraad;
-        existingStockInfo.Locatie = stockInfo.Locatie;
+        existingStockInfo.Quantity = stockInfo.Quantity;
+        existingStockInfo.Location = stockInfo.Location;
 
         dbContext.SaveChanges();
 
