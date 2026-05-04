@@ -4,10 +4,10 @@ namespace PriceService.Application
 {
     public interface IPriceRepository
     {
-        ArticlePrice? GetByArticleId(int articleId);
+        Task<ArticlePrice?> GetByArticleId(int articleId);
 
-        ArticlePrice Create(ArticlePrice articlePrice);
+        Task<ArticlePrice> Create(ArticlePrice articlePrice);
 
-        bool Update(int articleId, ArticlePrice articlePrice);
+        Task<bool> Update(int articleId, ArticlePrice articlePrice);
     }
 }

@@ -5,10 +5,10 @@ namespace PriceService.Application
 {
     public interface IPriceService
     {
-        ArticlePriceDto? GetByArticleId(int articleId);
+        Task<ArticlePriceDto?> GetByArticleId(int articleId);
 
-        ArticlePrice Create(ArticlePrice articlePrice);
+        Task<ArticlePrice> Create(ArticlePrice articlePrice);
 
-        bool Update(int articleId, UpdateArticlePriceDto articlePrice);
+        Task<bool> Update(int articleId, UpdateArticlePriceDto articlePrice);
     }
 }

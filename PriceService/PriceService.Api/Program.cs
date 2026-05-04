@@ -41,20 +41,20 @@ var articlePrices = app.MapGroup("/article-prices")
     .WithTags("article-prices")
     .RequireAuthorization();
 
-articlePrices.MapGet("/{articleId:int}", (
+articlePrices.MapGet("/{articleId:int}", async (
     int articleId,
     IPriceService priceService) =>
 {
-    var articlePrice = priceService.GetByArticleId(articleId);
+    var articlePrice = await priceService.GetByArticleId(articleId);
 
     return articlePrice is null
         ? Results.NotFound()
         : Results.Ok(articlePrice);
 });
 
-articlePrices.MapPut("/{articleId:int}", (int articleId, UpdateArticlePriceDto articlePrice, IPriceService priceService) =>
+articlePrices.MapPut("/{articleId:int}", async (int articleId, UpdateArticlePriceDto articlePrice, IPriceService priceService) =>
 {
-    return priceService.Update(articleId, articlePrice)
+    return await priceService.Update(articleId, articlePrice)
         ? Results.NoContent()
         : Results.NotFound();
 });

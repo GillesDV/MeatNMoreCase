@@ -5,10 +5,10 @@ namespace StockService.Application
 {
     public interface IStockService
     {
-        StockItem? GetByArticleId(int articleId);
+        Task<StockItem?> GetByArticleId(int articleId);
 
-        StockItem Create(StockItem stockInfo);
+        Task<StockItem> Create(StockItem stockInfo);
 
-        bool Update(int articleId, UpdateStockItemDto stockInfo);
+        Task<bool> Update(int articleId, UpdateStockItemDto stockInfo);
     }
 }

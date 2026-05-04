@@ -4,14 +4,14 @@ namespace ArticleService.Application
 {
     public interface IArticleRepository
     {
-        IReadOnlyCollection<Article> GetAll();
+        Task<IReadOnlyCollection<Article>> GetAll();
 
-        Article? GetById(int articleId);
+        Task<Article?> GetById(int articleId);
 
-        Article Create(Article article);
+        Task<Article> Create(Article article);
 
-        bool Update(int articleId, Article article);
+        Task<bool> Update(int articleId, Article article);
 
-        bool Delete(int articleId);
+        Task<bool> Delete(int articleId);
     }
 }

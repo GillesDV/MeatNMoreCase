@@ -41,18 +41,18 @@ var stockInfos = app.MapGroup("/stock-info")
     .WithTags("stock-info")
     .RequireAuthorization();
 
-stockInfos.MapGet("/{articleId:int}", (int articleId, IStockService stockService) =>
+stockInfos.MapGet("/{articleId:int}", async (int articleId, IStockService stockService) =>
 {
-    var stockInfo = stockService.GetByArticleId(articleId);
+    var stockInfo = await stockService.GetByArticleId(articleId);
 
     return stockInfo is null
         ? Results.NotFound()
         : Results.Ok(stockInfo);
 });
 
-stockInfos.MapPut("/{articleId:int}", (int articleId, UpdateStockItemDto stockInfo, IStockService stockService) =>
+stockInfos.MapPut("/{articleId:int}", async (int articleId, UpdateStockItemDto stockInfo, IStockService stockService) =>
 {
-    return stockService.Update(articleId, stockInfo)
+    return await stockService.Update(articleId, stockInfo)
         ? Results.NoContent()
         : Results.NotFound();
 });

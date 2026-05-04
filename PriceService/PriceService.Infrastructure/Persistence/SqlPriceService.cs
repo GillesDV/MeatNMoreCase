@@ -6,24 +6,24 @@ namespace PriceService.Infrastructure.Persistence;
 
 public sealed class SqlPriceService(PriceDbContext dbContext) : IPriceRepository
 {
-    public ArticlePrice? GetByArticleId(int articleId)
+    public Task<ArticlePrice?> GetByArticleId(int articleId)
     {
         return dbContext.ArticlePrices
             .AsNoTracking()
-            .SingleOrDefault(articlePrice => articlePrice.ArticleId == articleId);
+            .SingleOrDefaultAsync(articlePrice => articlePrice.ArticleId == articleId);
     }
 
-    public ArticlePrice Create(ArticlePrice articlePrice)
+    public async Task<ArticlePrice> Create(ArticlePrice articlePrice)
     {
-        dbContext.ArticlePrices.Add(articlePrice);
-        dbContext.SaveChanges();
+        await dbContext.ArticlePrices.AddAsync(articlePrice);
+        await dbContext.SaveChangesAsync();
 
         return articlePrice;
     }
 
-    public bool Update(int articleId, ArticlePrice articlePrice)
+    public async Task<bool> Update(int articleId, ArticlePrice articlePrice)
     {
-        var existingArticlePrice = dbContext.ArticlePrices.Find(articleId);
+        var existingArticlePrice = await dbContext.ArticlePrices.FindAsync(articleId);
 
         if (existingArticlePrice is null)
         {
@@ -32,7 +32,7 @@ public sealed class SqlPriceService(PriceDbContext dbContext) : IPriceRepository
 
         existingArticlePrice.BasicPriceInEuros = articlePrice.BasicPriceInEuros;
 
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         return true;
     }

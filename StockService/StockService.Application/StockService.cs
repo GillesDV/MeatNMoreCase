@@ -5,17 +5,17 @@ namespace StockService.Application
 {
     public class StockService(IStockRepository stockRepository) : IStockService
     {
-        public StockItem? GetByArticleId(int articleId)
+        public Task<StockItem?> GetByArticleId(int articleId)
         {
             return stockRepository.GetByArticleId(articleId);
         }
 
-        public StockItem Create(StockItem stockInfo)
+        public Task<StockItem> Create(StockItem stockInfo)
         {
             return stockRepository.Create(stockInfo);
         }
 
-        public bool Update(int articleId, UpdateStockItemDto stockInfo)
+        public Task<bool> Update(int articleId, UpdateStockItemDto stockInfo)
         {
             return stockRepository.Update(articleId, new StockItem
             {

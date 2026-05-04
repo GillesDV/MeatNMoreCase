@@ -6,24 +6,24 @@ namespace StockService.Infrastructure.Persistence;
 
 public sealed class SqlStockService(StockDbContext dbContext) : IStockRepository
 {
-    public StockItem? GetByArticleId(int articleId)
+    public Task<StockItem?> GetByArticleId(int articleId)
     {
         return dbContext.StockInfos
             .AsNoTracking()
-            .SingleOrDefault(stockInfo => stockInfo.ArticleId == articleId);
+            .SingleOrDefaultAsync(stockInfo => stockInfo.ArticleId == articleId);
     }
 
-    public StockItem Create(StockItem stockInfo)
+    public async Task<StockItem> Create(StockItem stockInfo)
     {
-        dbContext.StockInfos.Add(stockInfo);
-        dbContext.SaveChanges();
+        await dbContext.StockInfos.AddAsync(stockInfo);
+        await dbContext.SaveChangesAsync();
 
         return stockInfo;
     }
 
-    public bool Update(int articleId, StockItem stockInfo)
+    public async Task<bool> Update(int articleId, StockItem stockInfo)
     {
-        var existingStockInfo = dbContext.StockInfos.Find(articleId);
+        var existingStockInfo = await dbContext.StockInfos.FindAsync(articleId);
 
         if (existingStockInfo is null)
         {
@@ -33,7 +33,7 @@ public sealed class SqlStockService(StockDbContext dbContext) : IStockRepository
         existingStockInfo.Quantity = stockInfo.Quantity;
         existingStockInfo.Location = stockInfo.Location;
 
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
         return true;
     }

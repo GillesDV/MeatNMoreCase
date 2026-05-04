@@ -6,19 +6,17 @@ namespace PriceService.Application.Messaging;
 
 public sealed class ArticleCreatedHandler(IPriceService priceService) : IHandleMessages<ArticleCreated>
 {
-    public Task Handle(ArticleCreated message, IMessageHandlerContext context)
+    public async Task Handle(ArticleCreated message, IMessageHandlerContext context)
     {
-        if (priceService.GetByArticleId(message.ArticleId) is not null)
+        if (await priceService.GetByArticleId(message.ArticleId) is not null)
         {
-            return Task.CompletedTask;
+            return;
         }
 
-        priceService.Create(new ArticlePrice
+        await priceService.Create(new ArticlePrice
         {
             ArticleId = message.ArticleId,
             BasicPriceInEuros = 0m
         });
-
-        return Task.CompletedTask;
     }
 }

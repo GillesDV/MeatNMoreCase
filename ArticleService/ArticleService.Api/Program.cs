@@ -42,14 +42,14 @@ var articles = app.MapGroup("/articles")
     .WithTags("articles")
     .RequireAuthorization();
 
-articles.MapGet("/", (IArticleService articleService) =>
+articles.MapGet("/", async (IArticleService articleService) =>
 {
-    return Results.Ok(articleService.GetAll());
+    return Results.Ok(await articleService.GetAll());
 });
 
-articles.MapGet("/{articleId:int}", (int articleId, IArticleService articleService) =>
+articles.MapGet("/{articleId:int}", async (int articleId, IArticleService articleService) =>
 {
-    var article = articleService.GetById(articleId);
+    var article = await articleService.GetById(articleId);
 
     return article is null
         ? Results.NotFound()
@@ -63,16 +63,16 @@ articles.MapPost("/", async (Article article, IArticleService articleService) =>
     return Results.Created($"/articles/{createdArticle.ArticleId}", createdArticle);
 });
 
-articles.MapPut("/{articleId:int}", (int articleId, Article article, IArticleService articleService) =>
+articles.MapPut("/{articleId:int}", async (int articleId, Article article, IArticleService articleService) =>
 {
-    return articleService.Update(articleId, article)
+    return await articleService.Update(articleId, article)
         ? Results.NoContent()
         : Results.NotFound();
 });
 
-articles.MapDelete("/{articleId:int}", (int articleId, IArticleService articleService) =>
+articles.MapDelete("/{articleId:int}", async (int articleId, IArticleService articleService) =>
 {
-    return articleService.Delete(articleId)
+    return await articleService.Delete(articleId)
         ? Results.NoContent()
         : Results.NotFound();
 });

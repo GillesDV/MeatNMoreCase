@@ -5,14 +5,14 @@ namespace PriceService.Application
 {
     public class PriceService(IPriceRepository priceRepository) : IPriceService
     {
-        public ArticlePrice Create(ArticlePrice articlePrice)
+        public Task<ArticlePrice> Create(ArticlePrice articlePrice)
         {
             return priceRepository.Create(articlePrice);
         }
 
-        public ArticlePriceDto? GetByArticleId(int articleId)
+        public async Task<ArticlePriceDto?> GetByArticleId(int articleId)
         {
-            var articlePrice = priceRepository.GetByArticleId(articleId);
+            var articlePrice = await priceRepository.GetByArticleId(articleId);
 
             //TODO  get these values from a GET call from StockService and ArtikelsErvice
             var quantityInKg = 15;
@@ -30,7 +30,7 @@ namespace PriceService.Application
             };
         }
 
-        public bool Update(int articleId, UpdateArticlePriceDto articlePrice)
+        public Task<bool> Update(int articleId, UpdateArticlePriceDto articlePrice)
         {
             return priceRepository.Update(articleId, new ArticlePrice
             {

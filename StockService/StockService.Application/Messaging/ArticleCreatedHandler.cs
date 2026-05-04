@@ -7,20 +7,18 @@ namespace StockService.Application.Messaging;
 
 public sealed class ArticleCreatedHandler(IStockService stockService) : IHandleMessages<ArticleCreated>
 {
-    public Task Handle(ArticleCreated message, IMessageHandlerContext context)
+    public async Task Handle(ArticleCreated message, IMessageHandlerContext context)
     {
-        if (stockService.GetByArticleId(message.ArticleId) is not null)
+        if (await stockService.GetByArticleId(message.ArticleId) is not null)
         {
-            return Task.CompletedTask;
+            return;
         }
 
-        stockService.Create(new StockItem
+        await stockService.Create(new StockItem
         {
             ArticleId = message.ArticleId,
             Quantity = 0,
             Location = StockLocation.MainWharehouse
         });
-
-        return Task.CompletedTask;
     }
 }
