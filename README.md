@@ -25,5 +25,6 @@ Change the following files from dummy values to super secret values.
 - Instead of using in-memory nservicebus, use Azure Service bus / RabbitMQ; for decent persistence & scalability.
 - add some logging & error handling for not-so-happy flows
 - See about adding caching
+- Bump Angular to 20.X (aka the latest LTS at the time of writing); Assignment specified 19.x
 
 ## Task

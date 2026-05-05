@@ -1,0 +1,93 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #f6f8fb;
+  color: #1f2937;
+}
+
+.app-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  gap: 12px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.dashboard {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0;
+}
+
+.hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  margin: 16px 0 8px;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.05;
+}
+
+.hero p {
+  max-width: 640px;
+  margin: 0;
+  color: #5f6b7a;
+  font-size: 1rem;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.metrics mat-card-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.metrics mat-icon {
+  width: 48px;
+  height: 48px;
+  font-size: 48px;
+  color: #245d7f;
+}
+
+.metric-value,
+.metric-label {
+  display: block;
+}
+
+.metric-value {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.metric-label {
+  color: #5f6b7a;
+}
+
+.activity-card {
+  border-radius: 8px;
+}
+
+@media (max-width: 760px) {
+  .hero {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+}
