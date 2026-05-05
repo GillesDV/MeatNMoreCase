@@ -30,10 +30,5 @@ namespace ArticleService.Application
         {
             return articleRepository.Update(articleId, article);
         }
-
-        public Task<bool> Delete(int articleId)
-        {
-            return articleRepository.Delete(articleId);
-        }
     }
 }

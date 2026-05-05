@@ -11,7 +11,5 @@ namespace ArticleService.Application.Interfaces
         Task<Article> Create(Article article);
 
         Task<bool> Update(int articleId, Article article);
-
-        Task<bool> Delete(int articleId);
     }
 }

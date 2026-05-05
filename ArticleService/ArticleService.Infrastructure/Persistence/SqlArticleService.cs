@@ -48,19 +48,4 @@ public sealed class SqlArticleService(ArticleDbContext dbContext) : IArticleRepo
 
         return true;
     }
-
-    public async Task<bool> Delete(int articleId)
-    {
-        var existingArticle = await dbContext.Articles.FindAsync(articleId);
-
-        if (existingArticle is null)
-        {
-            return false;
-        }
-
-        dbContext.Articles.Remove(existingArticle);
-        await dbContext.SaveChangesAsync();
-
-        return true;
-    }
 }

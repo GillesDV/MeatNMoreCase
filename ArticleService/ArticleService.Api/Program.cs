@@ -70,11 +70,4 @@ articles.MapPut("/{articleId:int}", async (int articleId, Article article, IArti
         : Results.NotFound();
 });
 
-articles.MapDelete("/{articleId:int}", async (int articleId, IArticleService articleService) =>
-{
-    return await articleService.Delete(articleId)
-        ? Results.NoContent()
-        : Results.NotFound();
-});
-
 app.Run();
