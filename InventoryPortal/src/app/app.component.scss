@@ -82,6 +82,21 @@
   margin-top: 16px;
 }
 
+.auth-panel {
+  min-height: calc(100vh - 160px);
+  display: grid;
+  place-items: center;
+}
+
+.auth-panel mat-card {
+  width: min(460px, 100%);
+  border-radius: 8px;
+}
+
+.auth-panel mat-card-actions {
+  padding: 0 16px 16px;
+}
+
 @media (max-width: 760px) {
   .hero {
     align-items: stretch;

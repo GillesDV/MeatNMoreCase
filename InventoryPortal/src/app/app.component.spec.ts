@@ -3,6 +3,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 
 import { ArticleApi } from './articles/application/ports/article-api.port';
+import { AuthSession } from './auth/application/auth-session.port';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -18,11 +19,20 @@ describe('AppComponent', () => {
       description: 'Test article',
       unit: 'piece'
     }));
+    const authSession = jasmine.createSpyObj<AuthSession>('AuthSession', [
+      'login',
+      'logout',
+      'getAuthorizationToken'
+    ], {
+      isAuthenticated$: of(true)
+    });
+    authSession.getAuthorizationToken.and.returnValue(of('firebase-id-token'));
 
     await TestBed.configureTestingModule({
       imports: [AppComponent, NoopAnimationsModule],
       providers: [
-        { provide: ArticleApi, useValue: articleApi }
+        { provide: ArticleApi, useValue: articleApi },
+        { provide: AuthSession, useValue: authSession }
       ]
     }).compileComponents();
   });

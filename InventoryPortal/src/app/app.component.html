@@ -2,22 +2,42 @@
   <mat-icon aria-hidden="true">inventory</mat-icon>
   <span>{{ title }}</span>
   <span class="toolbar-spacer"></span>
-  <button mat-icon-button aria-label="Refresh inventory dashboard">
-    <mat-icon>refresh</mat-icon>
-  </button>
+  @if (isAuthenticated$ | async) {
+    <button mat-button type="button" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Sign out
+    </button>
+  }
 </mat-toolbar>
 
 <main class="dashboard">
-  <section class="hero">
-    <div>
-      <h1>Inventory dashboard</h1>
-      <p>Add Articles to our databases, modify descriptions, solve world hunger <br> and other fantastic operations that
-        may
-        or may not be supported as of right now.</p>
-    </div>
-  </section>
+  @if (isAuthenticated$ | async) {
+    <section class="hero">
+      <div>
+        <h1>Inventory dashboard</h1>
+        <p>Add Articles to our databases, modify descriptions, solve world hunger <br> and other fantastic operations that
+          may
+          or may not be supported as of right now.</p>
+      </div>
+    </section>
 
-  <app-create-article />
+    <app-create-article />
+  } @else {
+    <section class="auth-panel">
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>Sign in required</mat-card-title>
+          <mat-card-subtitle>Use Firebase authentication before managing inventory articles.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <button mat-flat-button color="primary" type="button" (click)="login()">
+            <mat-icon>login</mat-icon>
+            Sign in
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </section>
+  }
 
 </main>
 

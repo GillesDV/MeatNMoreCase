@@ -8,10 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { finalize } from 'rxjs';
+import { finalize, switchMap, take } from 'rxjs';
 
 import { ArticleApi } from '../../application/ports/article-api.port';
 import { ArticleUnit } from '../../domain/models/article.model';
+import { AuthSession } from '../../../auth/application/auth-session.port';
 
 @Component({
   selector: 'app-create-article',
@@ -31,6 +32,7 @@ import { ArticleUnit } from '../../domain/models/article.model';
 })
 export class CreateArticleComponent {
   private readonly articleApi = inject(ArticleApi);
+  private readonly authSession = inject(AuthSession);
   private readonly formBuilder = inject(FormBuilder);
   private readonly snackBar = inject(MatSnackBar);
 
@@ -50,10 +52,17 @@ export class CreateArticleComponent {
 
     this.isSubmitting = true;
 
-    this.articleApi.create(this.form.getRawValue())
-      .pipe(finalize(() => {
-        this.isSubmitting = false;
-      }))
+    this.authSession.getAuthorizationToken()
+      .pipe(
+        take(1),
+        switchMap((accessToken) => this.articleApi.create(
+          this.form.getRawValue(),
+          { accessToken }
+        )),
+        finalize(() => {
+          this.isSubmitting = false;
+        })
+      )
       .subscribe({
         next: () => {
           this.snackBar.open('Article created.', 'Close', { duration: 3500 });

@@ -36,3 +36,4 @@ yarn-error.log*
 *.subscription
 
 /InventoryPortal/.vscode/
+/InventoryPortal/ng-serve.err.log
