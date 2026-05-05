@@ -6,3 +6,15 @@ Accept: application/json
 Authorization: Bearer {{Firebase_Id_Token}}
 
 ###
+
+GET {{PriceService.Api_HostAddress}}/article-prices/1?quantityOrdered=10
+Accept: application/json
+Authorization: Bearer {{Firebase_Id_Token}}
+
+###
+
+GET {{PriceService.Api_HostAddress}}/article-prices/1/breakdown
+Accept: application/json
+Authorization: Bearer {{Firebase_Id_Token}}
+
+###

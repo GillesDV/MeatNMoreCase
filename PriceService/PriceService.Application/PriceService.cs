@@ -16,7 +16,7 @@ namespace PriceService.Application
             return priceRepository.Create(articlePrice);
         }
 
-        public async Task<ArticlePriceDto?> GetByArticleId(int articleId)
+        public async Task<ArticlePriceDto?> GetByArticleId(int articleId, int? quantityOrdered = null)
         {
             var articlePrice = await priceRepository.GetByArticleId(articleId);
 
@@ -33,12 +33,44 @@ namespace PriceService.Application
                 return null;
             }
 
-            var quantityInKg = stock.Quantity; //TODO is this correct? Unsure, but don't see another option. If so, simplify the 2 params ofc
-
             return new ArticlePriceDto
             {
                 ArticleId = articlePrice.ArticleId,
-                TotalPriceInEuros = articlePrice.CalculateTotalPrice(quantityInKg, stock.Quantity, article.Unit)
+                TotalPriceInEuros = articlePrice.CalculateTotalPrice(quantityOrdered ?? 1, stock.Quantity, article.Unit)
+            };
+        }
+
+        public async Task<ArticlePriceBreakdownDto?> GetPriceBreakdownByArticleId(int articleId)
+        {
+            var articlePrice = await priceRepository.GetByArticleId(articleId);
+
+            if (articlePrice is null)
+            {
+                return null;
+            }
+
+            var article = await articleServiceClient.GetById(articleId);
+
+            if (article is null)
+            {
+                return null;
+            }
+
+            var breakdown = articlePrice.CalculatePriceBreakdown(article.Unit);
+
+            return new ArticlePriceBreakdownDto
+            {
+                ArticleId = breakdown.ArticleId,
+                Unit = breakdown.Unit,
+                DefaultUnitPriceInEuros = breakdown.DefaultUnitPriceInEuros,
+                PriceTiers = breakdown.PriceTiers
+                    .Select(tier => new ArticlePriceTierDto
+                    {
+                        MinimumQuantity = tier.MinimumQuantity,
+                        UnitPriceInEuros = tier.UnitPriceInEuros,
+                        ReductionPercentage = tier.ReductionPercentage,
+                    })
+                    .ToArray(),
             };
         }
 

@@ -43,13 +43,25 @@ var articlePrices = app.MapGroup("/article-prices")
 
 articlePrices.MapGet("/{articleId:int}", async (
     int articleId,
+    int? quantityOrdered,
     IPriceService priceService) =>
 {
-    var articlePrice = await priceService.GetByArticleId(articleId);
+    var articlePrice = await priceService.GetByArticleId(articleId, quantityOrdered);
 
     return articlePrice is null
         ? Results.NotFound()
         : Results.Ok(articlePrice);
+});
+
+articlePrices.MapGet("/{articleId:int}/breakdown", async (
+    int articleId,
+    IPriceService priceService) =>
+{
+    var articlePriceBreakdown = await priceService.GetPriceBreakdownByArticleId(articleId);
+
+    return articlePriceBreakdown is null
+        ? Results.NotFound()
+        : Results.Ok(articlePriceBreakdown);
 });
 
 articlePrices.MapPut("/{articleId:int}", async (int articleId, UpdateArticlePriceDto articlePrice, IPriceService priceService) =>

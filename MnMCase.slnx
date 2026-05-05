@@ -11,6 +11,7 @@
   <Folder Name="/PriceService/">
     <Project Path="PriceService/PriceService.Api/PriceService.Api.csproj" Id="af57b852-96b1-4ae1-9904-2b1d3a71de31" />
     <Project Path="PriceService/PriceService.Application/PriceService.Application.csproj" Id="bb416305-b881-4c68-8661-00be18e4d818" />
+    <Project Path="PriceService/PriceService.Domain.UnitTests/PriceService.Domain.UnitTests.csproj" Id="3d6af7d5-ffd1-4fc1-8407-c591bdc7cd1c" />
     <Project Path="PriceService/PriceService.Domain/PriceService.Domain.csproj" Id="95dcf044-9c19-43b2-bcd6-6e89f3a7af77" />
     <Project Path="PriceService/PriceService.Infrastructure/PriceService.Infrastructure.csproj" Id="a7f6eb2c-f013-40d8-abc7-7d3472ffd238" />
   </Folder>

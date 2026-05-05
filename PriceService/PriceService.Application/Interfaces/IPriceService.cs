@@ -5,7 +5,9 @@ namespace PriceService.Application.Interfaces
 {
     public interface IPriceService
     {
-        Task<ArticlePriceDto?> GetByArticleId(int articleId);
+        Task<ArticlePriceDto?> GetByArticleId(int articleId, int? quantityOrdered = null);
+
+        Task<ArticlePriceBreakdownDto?> GetPriceBreakdownByArticleId(int articleId);
 
         Task<ArticlePrice> Create(ArticlePrice articlePrice);
 
