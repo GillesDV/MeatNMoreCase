@@ -1,0 +1,40 @@
+.create-article-card {
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.accent-banner {
+  height: 6px;
+  background: #da1a32;
+}
+
+.article-form {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(180px, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  grid-column: 1 / -1;
+}
+
+.form-actions button {
+  min-width: 160px;
+}
+
+.form-actions mat-spinner {
+  margin-right: 8px;
+}
+
+@media (max-width: 760px) {
+  .article-form {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}

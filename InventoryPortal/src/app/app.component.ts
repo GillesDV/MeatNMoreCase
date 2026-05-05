@@ -7,9 +7,12 @@ import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterOutlet } from '@angular/router';
 
+import { CreateArticleComponent } from './articles/presentation/create-article/create-article.component';
+
 @Component({
   selector: 'app-root',
   imports: [
+    CreateArticleComponent,
     RouterOutlet,
     MatButtonModule,
     MatCardModule,
@@ -23,12 +26,6 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'Inventory Portal';
-
-  readonly metrics = [
-    { label: 'Products tracked', value: '1,284', icon: 'inventory_2' },
-    { label: 'Low stock items', value: '18', icon: 'warning' },
-    { label: 'Inbound orders', value: '42', icon: 'local_shipping' }
-  ];
 
   readonly updates = [
     'Cycle count scheduled for warehouse A',
