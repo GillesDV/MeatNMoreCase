@@ -5,6 +5,7 @@ using ArticleService.Infrastructure;
 using NServiceBus;
 
 var builder = WebApplication.CreateBuilder(args);
+const string ArticleCorsPolicy = "ArticleCorsPolicy";
 
 builder.Host.UseNServiceBus(_ =>
 {
@@ -21,6 +22,21 @@ builder.Host.UseNServiceBus(_ =>
 builder.Services.AddApiSwagger();
 builder.Services.AddFirebaseAuthentication(builder.Configuration, builder.Environment);
 builder.Services.AddArticleInfrastructure(builder.Configuration);
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(ArticleCorsPolicy, policy =>
+    {
+        var allowedOrigins = builder.Configuration
+            .GetSection("Cors:AllowedOrigins")
+            .Get<string[]>()
+            ?? [];
+
+        policy
+            .WithOrigins(allowedOrigins)
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -35,6 +51,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(ArticleCorsPolicy);
 app.UseAuthentication();
 app.UseAuthorization();
 
