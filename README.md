@@ -1,6 +1,6 @@
 # Meat & More Case
 
-Inventory demo with three ASP.NET Core minimal APIs, an Angular 19 portal, SQL Server, Firebase Authentication, and NServiceBus Learning Transport.
+Inventory demo with an Angular frontend and 3 ASP.NET Core minimal APIs, SQL Server, Firebase Authentication, and NServiceBus Learning Transport.
 
 ## Prerequisites
 
@@ -41,26 +41,10 @@ docker compose up -d sqlserver
 dotnet run --project ArticleService\ArticleService.Api\ArticleService.Api.csproj --launch-profile https
 ```
 
-ArticleService URLs:
-
-```text
-https://localhost:7231
-http://localhost:5227
-Swagger: https://localhost:7231/swagger
-```
-
 3. Run StockService:
 
 ```powershell
 dotnet run --project StockService\StockService\StockService.Api.csproj --launch-profile https
-```
-
-StockService URLs:
-
-```text
-https://localhost:7218
-http://localhost:5097
-Swagger: https://localhost:7218/swagger
 ```
 
 4. Run PriceService:
@@ -69,26 +53,12 @@ Swagger: https://localhost:7218/swagger
 dotnet run --project PriceService\PriceService.Api\PriceService.Api.csproj --launch-profile https
 ```
 
-PriceService URLs:
-
-```text
-https://localhost:7005
-http://localhost:5204
-Swagger: https://localhost:7005/swagger
-```
-
 5. Run the Angular portal:
 
 ```powershell
 cd InventoryPortal
 npm install
 npm start -- --host 127.0.0.1 --port 4200
-```
-
-Angular URL:
-
-```text
-http://127.0.0.1:4200
 ```
 
 ## Docker Commands
@@ -120,7 +90,7 @@ localhost
 127.0.0.1
 ```
 
-## Notes And Tradeoffs
+# Notes And Tradeoffs
 
 - Maybe extract the Minimal Api endpoints from `Program.cs` into another file / structure as well? Especially if more controllers might be added in the future
 - Shared Firebase/auth setup is duplicated across services and could become a shared package.
@@ -129,3 +99,90 @@ localhost
 - add some logging & error handling for not-so-happy flows
 - See about adding caching
 - Angular is on version 19 because the assignment specified Angular 19.x. Could be bumped to 20.X (aka the latest LTS at the time of writing)
+
+# Original assignment TLDR
+
+- Use `docker-compose` to set up the local infrastructure
+  - For example databases and optionally RabbitMQ
+- All communication between systems must be secured using `OAuth 2.0`
+- Use `NServiceBus`
+  - Free choice between:
+    - `LearningTransport`
+    - `RabbitMQ`
+- Services may exist within a single solution containing multiple startup projects
+- The application must:
+  - be available through Git
+  - contain the necessary tests
+  - expose endpoints through tools such as Swagger
+  - include clear local setup instructions
+
+## Frontend (Angular)
+
+Use:
+- `Angular 19`
+- `Angular Material`
+
+Functionality:
+- Screen for creating an article:
+  - `articleId`
+  - `description`
+  - `unit` (`kg` or `pcs`)
+
+Authentication & authorization:
+- Login through `OpenID Connect`
+- Backend authorization via `OAuth 2.0`
+- Free choice of supporting package (e.g. `angular-auth-oidc-client`)
+
+---
+
+## ArticleService
+
+Functionality:
+- Secured endpoint for creating articles
+- Stores:
+  - `articleId`
+  - `description`
+  - `unit`
+
+Messaging:
+- Publishes an event through the service bus whenever an article is created
+- Other services react to this event:
+  - `StockService` creates initial stock:
+    - stock = `0`
+    - location = `central warehouse`
+  - `PriceService` creates an initial base price:
+    - price = `0`
+
+---
+
+## StockService
+
+Manages:
+- `articleId`
+- `stock`
+- `location`
+  - `central warehouse`
+  - `secondary warehouse`
+
+Endpoints:
+- Secured endpoint for retrieving stock information
+- Endpoint for updating stock
+
+---
+
+## PriceService
+
+Manages:
+- `articleId`
+- `basePrice`
+
+Endpoints:
+- Secured endpoint for retrieving price information
+- Secured endpoint for updating price information
+
+Price calculation:
+- Support for tiered discounts
+  - From `10kg` → `10%`
+  - From `20kg` → `20%`
+- Additional stock-based discount
+  - From stock `100kg` → additional `10%` discount
