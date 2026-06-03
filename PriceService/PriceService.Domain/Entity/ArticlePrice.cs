@@ -1,7 +1,15 @@
 namespace PriceService.Domain.Entity;
 
+using PriceService.Domain.Strategies;
+
 public class ArticlePrice
 {
+    private static readonly IReadOnlyCollection<IArticlePriceTierStrategy> PriceTierStrategies =
+    [
+        new KilogramArticlePriceTierStrategy(),
+        new DefaultArticlePriceTierStrategy()
+    ];
+
     public int ArticleId { get; set; }
 
     public decimal BasicPriceInEuros { get; set; }
@@ -28,38 +36,9 @@ public class ArticlePrice
 
     private IReadOnlyCollection<ArticlePriceTier> CalculatePriceTiers(string unit)
     {
-        var defaultTier = new ArticlePriceTier
-        {
-            UnitPriceInEuros = BasicPriceInEuros,
-            ReductionPercentage = 0m
-        };
-
-        if (!unit.Equals("kilogram", StringComparison.InvariantCultureIgnoreCase))
-        {
-            return [defaultTier];
-        }
-
-        return
-        [
-            defaultTier,
-            new ArticlePriceTier
-            {
-                MinimumQuantity = 10,
-                UnitPriceInEuros = CalculateReducedUnitPrice(0.10m),
-                ReductionPercentage = 0.10m
-            },
-            new ArticlePriceTier
-            {
-                MinimumQuantity = 20,
-                UnitPriceInEuros = CalculateReducedUnitPrice(0.20m),
-                ReductionPercentage = 0.20m
-            }
-        ];
-    }
-
-    private decimal CalculateReducedUnitPrice(decimal reductionPercentage)
-    {
-        return Math.Round(BasicPriceInEuros * (1 - reductionPercentage), 2);
+        return PriceTierStrategies
+            .First(strategy => strategy.CanCalculateFor(unit))
+            .CalculatePriceTiers(BasicPriceInEuros);
     }
 
     private ArticlePriceTier GetPriceTierForQuantity(int quantity, string unit)
