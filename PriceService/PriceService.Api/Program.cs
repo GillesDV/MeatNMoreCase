@@ -51,7 +51,12 @@ articlePrices.MapGet("/{articleId:int}", async (
     return articlePrice is null
         ? Results.NotFound()
         : Results.Ok(articlePrice);
-});
+})
+.WithName("GetArticlePrice")
+.WithSummary("Get an article price")
+.WithDescription("Returns the calculated price for an article. When quantityOrdered is provided, the applicable quantity reduction is included in the total.")
+.Produces<ArticlePriceDto>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound);
 
 articlePrices.MapGet("/{articleId:int}/breakdown", async (
     int articleId,
@@ -62,13 +67,24 @@ articlePrices.MapGet("/{articleId:int}/breakdown", async (
     return articlePriceBreakdown is null
         ? Results.NotFound()
         : Results.Ok(articlePriceBreakdown);
-});
+})
+.WithName("GetArticlePriceBreakdown")
+.WithSummary("Get article price tiers")
+.WithDescription("Returns the default unit price and all quantity-based price tiers for the article unit.")
+.Produces<ArticlePriceBreakdownDto>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound);
 
 articlePrices.MapPut("/{articleId:int}", async (int articleId, UpdateArticlePriceDto articlePrice, IPriceService priceService) =>
 {
     return await priceService.Update(articleId, articlePrice)
         ? Results.NoContent()
         : Results.NotFound();
-});
+})
+.WithName("UpdateArticlePrice")
+.WithSummary("Update an article base price")
+.WithDescription("Updates the base price in euros used to calculate totals and quantity-based price tiers for an article.")
+.Accepts<UpdateArticlePriceDto>("application/json")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound);
 
 app.Run();

@@ -62,7 +62,11 @@ var articles = app.MapGroup("/articles")
 articles.MapGet("/", async (IArticleService articleService) =>
 {
     return Results.Ok(await articleService.GetAll());
-});
+})
+    .WithName("GetArticles")
+    .WithSummary("Get all articles")
+    .WithDescription("Returns every article with its identifier, description, and unit of measure.")
+    .Produces<IReadOnlyCollection<Article>>(StatusCodes.Status200OK);
 
 articles.MapGet("/{articleId:int}", async (int articleId, IArticleService articleService) =>
 {
@@ -71,20 +75,36 @@ articles.MapGet("/{articleId:int}", async (int articleId, IArticleService articl
     return article is null
         ? Results.NotFound()
         : Results.Ok(article);
-});
+})
+.WithName("GetArticleById")
+.WithSummary("Get an article by ID")
+.WithDescription("Returns the article that matches the supplied article ID.")
+.Produces<Article>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound);
 
 articles.MapPost("/", async (Article article, IArticleService articleService) =>
 {
     var createdArticle = await articleService.Create(article);
 
     return Results.Created($"/articles/{createdArticle.ArticleId}", createdArticle);
-});
+})
+.WithName("CreateArticle")
+.WithSummary("Create an article")
+.WithDescription("Creates a new article and publishes the article-created event used by dependent services.")
+.Accepts<Article>("application/json")
+.Produces<Article>(StatusCodes.Status201Created);
 
 articles.MapPut("/{articleId:int}", async (int articleId, Article article, IArticleService articleService) =>
 {
     return await articleService.Update(articleId, article)
         ? Results.NoContent()
         : Results.NotFound();
-});
+})
+.WithName("UpdateArticle")
+.WithSummary("Update an article")
+.WithDescription("Updates the description and unit of measure for the article with the supplied ID.")
+.Accepts<Article>("application/json")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound);
 
 app.Run();

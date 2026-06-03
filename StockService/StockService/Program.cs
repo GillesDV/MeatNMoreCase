@@ -48,13 +48,24 @@ stockInfos.MapGet("/{articleId:int}", async (int articleId, IStockService stockS
     return stockInfo is null
         ? Results.NotFound()
         : Results.Ok(stockInfo);
-});
+})
+.WithName("GetStockInfo")
+.WithSummary("Get stock information")
+.WithDescription("Returns the current stock quantity and stock location for the article with the supplied ID.")
+.Produces<StockService.Domain.Entity.StockItem>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound);
 
 stockInfos.MapPut("/{articleId:int}", async (int articleId, UpdateStockItemDto stockInfo, IStockService stockService) =>
 {
     return await stockService.Update(articleId, stockInfo)
         ? Results.NoContent()
         : Results.NotFound();
-});
+})
+.WithName("UpdateStockInfo")
+.WithSummary("Update stock information")
+.WithDescription("Updates the stock quantity and stock location for the article with the supplied ID.")
+.Accepts<UpdateStockItemDto>("application/json")
+.Produces(StatusCodes.Status204NoContent)
+.Produces(StatusCodes.Status404NotFound);
 
 app.Run();
